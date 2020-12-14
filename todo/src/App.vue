@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header/>
+    <button @click="sortTodos">Sort me</button>
     <AddTodo v-on:add-todo="addTodo"/>
     <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo"/>
   </div>
@@ -39,9 +40,14 @@ export default {
         title,
         completed
       })
-        .then(res => this.todos = [...this.todos, res.data])
+        .then((res) => this.todos = [...this.todos, res.data])
         .catch(err => console.log(err));
       
+    },
+    sortTodos() {
+      const sortedTodos = [...this.todos];
+      sortedTodos.sort((oneTodo, otherTodo) => oneTodo.title.localeCompare(otherTodo.title));
+      this.todos = sortedTodos;
     }
   },
   created() {
